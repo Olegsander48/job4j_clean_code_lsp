@@ -1,5 +1,7 @@
 package ru.job4j.ood.isp.menu;
 
+import ru.job4j.ood.isp.menu.output.ConsoleOutput;
+
 import java.util.Scanner;
 
 public class TodoApp {
@@ -40,7 +42,7 @@ public class TodoApp {
                     menu.select(parentName).get().getActionDelegate().delegate();
                     break;
                 case 4:
-                    Printer printer = new Printer();
+                    Printer printer = new Printer(new ConsoleOutput());
                     printer.print(menu);
                     break;
                 case 5:

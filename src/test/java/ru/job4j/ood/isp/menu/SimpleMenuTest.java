@@ -2,6 +2,7 @@ package ru.job4j.ood.isp.menu;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import ru.job4j.ood.isp.menu.output.ConsoleOutput;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +32,7 @@ public class SimpleMenuTest {
         assertThat(new Menu.MenuItemInfo(
                 "Покормить собаку", List.of(), STUB_ACTION, "2."))
                 .isEqualTo(menu.select("Покормить собаку").get());
-        Printer printer = new Printer();
+        Printer printer = new Printer(new ConsoleOutput());
         printer.print(menu);
     }
 
@@ -52,7 +53,7 @@ public class SimpleMenuTest {
                 .isEqualTo(menu.select("Купить продукты").get());
         assertThat(menu.select("Купить машину"))
                 .isEmpty();
-        Printer printer = new Printer();
+        Printer printer = new Printer(new ConsoleOutput());
         printer.print(menu);
     }
 
@@ -83,7 +84,7 @@ public class SimpleMenuTest {
                 List.of(), STUB_ACTION, "2."))
                 .isEqualTo(iterator.next());
         assertThat(iterator.hasNext()).isFalse();
-        Printer printer = new Printer();
+        Printer printer = new Printer(new ConsoleOutput());
         printer.print(menu);
     }
 }
