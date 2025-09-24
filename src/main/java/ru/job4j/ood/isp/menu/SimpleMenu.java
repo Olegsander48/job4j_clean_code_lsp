@@ -8,25 +8,50 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
-   /*  добавьте реализацию*/
-        return  false;
+        MenuItem element = new SimpleMenuItem(childName, actionDelegate);
+        
+        if (parentName == null) {
+            return rootElements.add(element);
+        }
+        
+        Optional<ItemInfo> itemInfo = findItem(parentName);
+        return itemInfo.map(info -> info.menuItem.getChildren().add(element))
+                       .orElse(false);
     }
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        /*  добавьте реализацию*/
-        return null;
+        return findItem(itemName)
+                .map(info -> new MenuItemInfo(info.menuItem, info.number));
     }
 
     @Override
     public Iterator<MenuItemInfo> iterator() {
-        /*  добавьте реализацию*/
-        return null;
+        return new Iterator<>() {
+            private final DFSIterator iterator = new DFSIterator();
+
+            @Override
+            public boolean hasNext() {
+                return iterator.hasNext();
+            }
+
+            @Override
+            public MenuItemInfo next() {
+                ItemInfo itemInfo = iterator.next();
+                return new MenuItemInfo(itemInfo.menuItem, itemInfo.number);
+            }
+        };
     }
 
     private Optional<ItemInfo> findItem(String name) {
-        /*  добавьте реализацию*/
-        return null;
+        DFSIterator iterator = new DFSIterator();
+        while (iterator.hasNext()) {
+            SimpleMenu.ItemInfo item = iterator.next();
+            if (item.menuItem.getName().equals(name)) {
+                return Optional.of(item);
+            }
+        }
+        return Optional.empty();
     }
 
     private static class SimpleMenuItem implements MenuItem {
